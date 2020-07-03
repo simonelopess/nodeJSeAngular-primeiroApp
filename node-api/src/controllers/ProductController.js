@@ -4,7 +4,8 @@ const Product = mongoose.model('Product');
 
 module.exports = {
     async index(req, res){
-        const products = await Product.find();
+        const {page = 1} = req.query; //permite que seja possivel passar a requisicao de pagina por url e retorne apenas o registro da pagina. Ex: http://localhost:3030/products?page=2
+        const products = await Product.paginate({}, {page, limit:10}); //limita a visualização em 10 páginas
 
         return res.json(products);
     },
